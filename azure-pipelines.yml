@@ -1,22 +1,38 @@
+[3:24 PM] Sai Theja , Chitluri
 trigger:
-- main  # Specify the branch that triggers the pipeline
 
+- main
+ 
 pool:
-  testpool  # Choose an appropriate image based on your requirements
 
+  testpool
+ 
 jobs:
-- job: RunPythonScript
+
+- job: RunPythonScriptJob
+
   displayName: 'Run Python Script'
-  
+
   steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.x'  # Specify the Python version you want to use
-      addToPath: true
 
+  - checkout: self
+ 
   - script: |
-      python -m pip install --upgrade pip
-      pip install -r requirements.txt  # If you have any Python package dependencies
 
-  - script: 'python index.py'
-    displayName: 'Run Python Script'
+      sudo yum install python3 -y
+
+    displayName: 'Install Python 3'
+ 
+  - script: |
+
+      echo "export GITHUB_TOKEN=$GITHUB_TOKEN" >> ~/.bashrc
+
+      source ~/.bashrc
+
+      python3 index.py
+
+    displayName: 'Run Your Python Script'
+
+    env:
+
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
