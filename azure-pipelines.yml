@@ -1,19 +1,22 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+- main  # Specify the branch that triggers the pipeline
 
 pool:
-  testpool
+  testpool  # Choose an appropriate image based on your requirements
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+- job: RunPythonScript
+  displayName: 'Run Python Script'
+  
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'  # Specify the Python version you want to use
+      addToPath: true
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt  # If you have any Python package dependencies
+
+  - script: 'python index.py'
+    displayName: 'Run Python Script'
