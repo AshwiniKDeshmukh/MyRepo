@@ -9,7 +9,7 @@ jobs:
   displayName: 'Run Nginx'
   
   steps:
-  - checkout
+  - checkout: self
 
   - script: |
       sudo yum update -y
