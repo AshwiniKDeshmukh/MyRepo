@@ -1,37 +1,21 @@
 trigger:
-
 - main
- 
+
 pool:
-
   Superman
- 
+
 jobs:
-
-- job: RunPythonScriptJob
-
-  displayName: 'Run Python Script'
-
+- job: RunNginxJob
+  displayName: 'Run Nginx'
+  
   steps:
+  - checkout
 
-  - checkout: self
- 
   - script: |
+      sudo yum update -y
+      sudo yum install nginx -y
+    displayName: 'Install Nginx'
 
-      sudo yum install python3 -y
-
-    displayName: 'Install Python 3'
- 
   - script: |
-
-      echo "export GITHUB_TOKEN=$GITHUB_TOKEN" >> ~/.bashrc
-
-      source ~/.bashrc
-
-      python3 index.py
-
-    displayName: 'Run Your Python Script'
-
-    env:
-
-      GITHUB_TOKEN: $(GITHUB_TOKEN)
+      sudo service nginx start
+    displayName: 'Start Nginx'
