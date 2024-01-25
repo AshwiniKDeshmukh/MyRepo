@@ -14,6 +14,8 @@ jobs:
   - script: |
       sudo yum update -y
       sudo yum install nginx -y
+      echo "Hello, welcome to Azure Pipeline" > /usr/share/nginx/html/index.html
+
     displayName: 'Install Nginx'
 
   - script: |
